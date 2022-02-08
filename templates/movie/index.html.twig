@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="card" style="width: 18rem;">
-        <img src="" class="card-img-top">
+        <img src="{# {{ movie.poster }} #}" class="card-img-top">
         <div class="card-body">
             <h5 class="card-title">{{ movie.title|upper }}</h5>
             <h6 class="card-subtitle">{{ movie.director }} ({{ movie.year ?: 'N.A.' }})</h6>
