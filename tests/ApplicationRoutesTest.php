@@ -2,6 +2,8 @@
 
 namespace App\Tests;
 
+use App\Entity\Movie;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,6 +15,7 @@ class ApplicationRoutesTest extends WebTestCase
 
     public function setUp(): void
     {
+        self::ensureKernelShutdown();
         self::$client = static::createClient();
     }
 
@@ -34,9 +37,12 @@ class ApplicationRoutesTest extends WebTestCase
 
     public function provideApplicationRoutes(): array
     {
+        $entityManager = self::getContainer()->get(EntityManagerInterface::class);
+        $movie = $entityManager->getRepository(Movie::class)->findAll()[0];
+
         return [
             ['/', Response::HTTP_OK],
-            ['/movie', Response::HTTP_OK],
+            ['/movie/'.$movie->getId(), Response::HTTP_OK],
             ['/toto', Response::HTTP_NOT_FOUND],
         ];
     }
