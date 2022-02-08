@@ -25,6 +25,9 @@ class Movie
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $description;
 
+    #[ORM\ManyToOne(targetEntity: Genre::class, inversedBy: 'movies')]
+    private Genre $genre;
+
     public function getId(): int
     {
         return $this->id;
@@ -68,6 +71,16 @@ class Movie
     public function setDescription(?string $description): void
     {
         $this->description = $description;
+    }
+
+    public function getGenre(): ?Genre
+    {
+        return $this->genre;
+    }
+
+    public function setGenre(?Genre $genre): void
+    {
+        $this->genre = $genre;
     }
 }
 

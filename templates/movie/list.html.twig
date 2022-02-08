@@ -4,7 +4,8 @@
 {% block title 'Liste des films' %}
 
 {% block body %}
-<ul>
+<h3>{{ genre is not null ? genre.name|title ~ ' movies' : 'All movies' }}</h3>
+<ul class="movies">
     {% for movie in movies %}
         <li><a href="{{ path('movie', {'id': movie.id}) }}">{{ movie.title }}</a></li>
     {% endfor %}
