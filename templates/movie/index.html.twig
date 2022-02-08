@@ -1,7 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello MovieController!{% endblock %}
+{% block title 'Movie page - ' ~ parent() %}
 
 {% block body %}
-
+    <div class="card" style="width: 18rem;">
+        <img src="" class="card-img-top">
+        <div class="card-body">
+            <h5 class="card-title">{{ movie.title|upper }}</h5>
+            <h6 class="card-subtitle">{{ movie.director }} ({{ movie.year ?: 'N.A.' }})</h6>
+            <p class="card-text">{{ movie.description }}</p>
+        </div>
+    </div>
 {% endblock %}
