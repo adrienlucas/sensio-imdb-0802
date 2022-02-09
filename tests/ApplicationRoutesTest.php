@@ -41,9 +41,9 @@ class ApplicationRoutesTest extends WebTestCase
         $movie = $entityManager->getRepository(Movie::class)->findAll()[0];
 
         return [
-            ['/', Response::HTTP_OK],
-            ['/movie/'.$movie->getId(), Response::HTTP_OK],
-            ['/toto', Response::HTTP_NOT_FOUND],
+            'Homepage' => ['/', Response::HTTP_OK],
+            'Movie page' => ['/movie/'.$movie->getId(), Response::HTTP_OK],
+            'Not existing page' => ['/toto', Response::HTTP_NOT_FOUND],
         ];
     }
 }
