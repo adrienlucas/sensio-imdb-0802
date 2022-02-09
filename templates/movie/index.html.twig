@@ -8,6 +8,7 @@
         <div class="card-body">
             <h5 class="card-title">{{ movie.title|upper }}</h5>
             <h6 class="card-subtitle">{{ movie.director }} ({{ movie.year ?: 'N.A.' }})</h6>
+            <h6 class="card-subtitle genres">{{ movie.genres|map(genre => genre.name)|join(', ') }}</h6>
             <p class="card-text">{{ movie.description }}</p>
         </div>
     </div>

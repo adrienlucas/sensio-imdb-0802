@@ -11,11 +11,16 @@ class TestFixtures extends AbstractFixture
 {
     public function load(ObjectManager $manager)
     {
-        // Create first genre
-        $genre = new Genre();
-        $genre->setName('comedy');
+        // Create genres
+        $musical = new Genre();
+        $musical->setName('musical');
 
-        $manager->persist($genre);
+        $manager->persist($musical);
+
+        $comedy = new Genre();
+        $comedy->setName('comedy');
+
+        $manager->persist($comedy);
 
         // Create the first movie
         $movie = new Movie();
@@ -24,9 +29,8 @@ class TestFixtures extends AbstractFixture
         $movie->setYear(2021);
         $movie->setDescription('Two low-level astronomers must go on a giant media tour to warn mankind of an approaching comet that will destroy planet Earth.');
 
-        $genre->addMovie($movie);
+        $comedy->addMovie($movie);
         $manager->persist($movie);
-        $this->setReference('dummy_movie', $movie);
 
         // Create the second movie
         $movie = new Movie();
@@ -35,8 +39,10 @@ class TestFixtures extends AbstractFixture
         $movie->setYear(1980);
         $movie->setDescription('Jake Blues rejoins with his brother Elwood after being released from prison, but the duo has just days to reunite their old R&B band and save the Catholic home where the two were raised, outrunning the police as they tear through Chicago.');
 
-        $genre->addMovie($movie);
+        $comedy->addMovie($movie);
+        $musical->addMovie($movie);
         $manager->persist($movie);
+        $this->setReference('dummy_movie', $movie);
 
         // Create a movie without Genre
         $movie = new Movie();

@@ -33,7 +33,7 @@ class MovieController extends AbstractController
         if($genre === null) {
             $movies = $entityManager->getRepository(Movie::class)->findAll();
         } else {
-            $movies = $entityManager->getRepository(Movie::class)->findBy(['genre' => $genre]);
+            $movies = $entityManager->getRepository(Movie::class)->findByGenre($genre);
         }
 
         return $this->render('movie/list.html.twig', [
@@ -51,11 +51,16 @@ class MovieController extends AbstractController
 
         $entityManager = $this->container->get(EntityManagerInterface::class);
 
-        // Create first genre
-        $genre = new Genre();
-        $genre->setName('comedy');
+        // Create genres
+        $musical = new Genre();
+        $musical->setName('musical');
 
-        $entityManager->persist($genre);
+        $entityManager->persist($musical);
+
+        $comedy = new Genre();
+        $comedy->setName('comedy');
+
+        $entityManager->persist($comedy);
 
         // Create the first movie
         $movie = new Movie();
@@ -64,7 +69,7 @@ class MovieController extends AbstractController
         $movie->setYear(2021);
         $movie->setDescription('Two low-level astronomers must go on a giant media tour to warn mankind of an approaching comet that will destroy planet Earth.');
 
-        $genre->addMovie($movie);
+        $comedy->addMovie($movie);
         $entityManager->persist($movie);
 
         // Create the second movie
@@ -74,7 +79,8 @@ class MovieController extends AbstractController
         $movie->setYear(1980);
         $movie->setDescription('Jake Blues rejoins with his brother Elwood after being released from prison, but the duo has just days to reunite their old R&B band and save the Catholic home where the two were raised, outrunning the police as they tear through Chicago.');
 
-        $genre->addMovie($movie);
+        $musical->addMovie($movie);
+        $comedy->addMovie($movie);
         $entityManager->persist($movie);
 
         // Create a movie without Genre

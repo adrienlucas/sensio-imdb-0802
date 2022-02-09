@@ -35,6 +35,8 @@ class MovieControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('h5.card-title', strtoupper($this->dummyMovie->getTitle()));
         $this->assertSelectorTextContains('p.card-text', $this->dummyMovie->getDescription());
+        $genreNames = array_map(fn(Genre $genre) => $genre->getName(), $this->dummyMovie->getGenres()->toArray());
+        $this->assertSelectorTextContains('.genres', implode(', ', $genreNames));
     }
 
     public function testDisplayTheMovieList(): void

@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Genre;
 use App\Entity\Movie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -26,6 +27,19 @@ class MovieRepository extends ServiceEntityRepository
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult()
+        ;
+    }
+
+    public function findByGenre(Genre $genre)
+    {
+        return $this->createQueryBuilder('movie')
+            ->select('movie')
+            ->join('movie.genres', 'genre', 'WITH', 'genre = :genre')
+//            ->join('movie.genres', 'genre')
+//            ->where('genre = :genre')
+            ->setParameter('genre', $genre)
+            ->getQuery()
+            ->getResult()
         ;
     }
 

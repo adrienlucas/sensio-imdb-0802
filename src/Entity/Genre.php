@@ -18,7 +18,7 @@ class Genre
     #[ORM\Column(type: 'string', length: 255)]
     private string $name;
 
-    #[ORM\ManyToMany(mappedBy: 'genre', targetEntity: Movie::class)]
+    #[ORM\ManyToMany(mappedBy: 'genres', targetEntity: Movie::class)]
     private Collection $movies;
 
     public function __construct()
@@ -53,7 +53,7 @@ class Genre
     {
         if (!$this->movies->contains($movie)) {
             $this->movies[] = $movie;
-            $movie->setGenre($this);
+            $movie->addGenre($this);
         }
     }
 
