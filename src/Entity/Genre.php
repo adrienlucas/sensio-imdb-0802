@@ -18,7 +18,7 @@ class Genre
     #[ORM\Column(type: 'string', length: 255)]
     private string $name;
 
-    #[ORM\OneToMany(mappedBy: 'genre', targetEntity: Movie::class)]
+    #[ORM\ManyToMany(mappedBy: 'genre', targetEntity: Movie::class)]
     private Collection $movies;
 
     public function __construct()
