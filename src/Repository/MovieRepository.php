@@ -19,6 +19,16 @@ class MovieRepository extends ServiceEntityRepository
         parent::__construct($registry, Movie::class);
     }
 
+    public function findLastMovie(): ?Movie
+    {
+        return $this->createQueryBuilder('movie')
+            ->orderBy('movie.year', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
     // /**
     //  * @return Movie[] Returns an array of Movie objects
     //  */

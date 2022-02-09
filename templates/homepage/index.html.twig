@@ -1,0 +1,7 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Home - ' ~ parent() %}
+
+{% block body %}
+    Dernière sortie : <a href="{{ path('movie', {'id': lastMovie.id}) }}">{{ lastMovie.title }}</a>
+{% endblock %}
