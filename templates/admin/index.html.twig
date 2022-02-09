@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Admin - '~parent() %}
+
+{% block body %}
+    {{ form(movie_form) }}
+{#    {{ form_start(movie_form) }}#}
+{#        {{ form_row(movie_form.title) }}#}
+{#        {{ form_row(movie_form.year) }}#}
+{#        {{ form_row(movie_form.director) }}#}
+{#        {{ form_row(movie_form.description) }}#}
+{#        {{ form_row(movie_form.genres) }}#}
+{#    {{ form_end(movie_form) }}#}
+{% endblock %}
