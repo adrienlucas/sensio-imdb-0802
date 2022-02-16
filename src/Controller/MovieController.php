@@ -4,12 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Genre;
 use App\Entity\Movie;
+use App\Omdb\OmdbGateway;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManagerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -17,11 +15,20 @@ class MovieController extends AbstractController
 {
 //    #[Route('/movie/{id_movie}', name: 'movie')]
 //    #[ParamConverter('id_movie', Movie::class, options: ['mapping' => ['id_movie' => 'id']])]
+
+    public function __construct(
+        private OmdbGateway $omdbGateway
+    ) {
+    }
+
     #[Route('/movie/{id}', name: 'movie')]
     public function index(Movie $movie): Response
     {
+        $imdbId = $this->omdbGateway->getImdbId($movie);
+
         return $this->render('movie/index.html.twig', [
             'movie' => $movie,
+            'movieImdbId' => $imdbId,
         ]);
     }
 
