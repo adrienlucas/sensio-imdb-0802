@@ -3,6 +3,7 @@
 namespace App\Omdb;
 
 use App\Entity\Movie;
+use RuntimeException;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class OmdbGateway
@@ -23,5 +24,21 @@ class OmdbGateway
         $json = $apiResponse->toArray();
 
         return $json['imdbID'] ?? null;
+    }
+
+    public function getFirstMovieByTitle(string $movieTitle)
+    {
+        $apiResponse = $this->httpClient->request('GET', sprintf(
+            'http://www.omdbapi.com/?apikey=%s&s=%s',
+            $this->omdbApiKey,
+            $movieTitle
+        ));
+
+        $results = $apiResponse->toArray()['Search'];
+        if(count($results) === 0) {
+            throw new RuntimeException('No results.');
+        }
+
+        return $results[0];
     }
 }
