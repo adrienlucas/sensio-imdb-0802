@@ -26,7 +26,7 @@ class OmdbGateway
         return $json['imdbID'] ?? null;
     }
 
-    public function getFirstMovieByTitle(string $movieTitle)
+    public function getFirstMovieByTitle(string $movieTitle): array
     {
         $apiResponse = $this->httpClient->request('GET', sprintf(
             'http://www.omdbapi.com/?apikey=%s&s=%s',
@@ -40,5 +40,30 @@ class OmdbGateway
         }
 
         return $results[0];
+    }
+
+    public function getMoviesByTitle(string $movieTitle): array
+    {
+        $apiResponse = $this->httpClient->request('GET', sprintf(
+            'http://www.omdbapi.com/?apikey=%s&s=%s',
+            $this->omdbApiKey,
+            $movieTitle
+        ));
+        $apiResponse = $apiResponse->toArray();
+
+        if(isset($apiResponse['Error'])) {
+            throw new RuntimeException($apiResponse['Error']);
+        }
+
+        if(!isset($apiResponse['Search'])) {
+            throw new RuntimeException(sprintf('Invalid response (%s)', var_export($apiResponse, true)));
+        }
+
+        $results = $apiResponse['Search'];
+        if(count($results) === 0) {
+            throw new RuntimeException('No results.');
+        }
+
+        return $results;
     }
 }
